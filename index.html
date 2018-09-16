@@ -1,12 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE>
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css"
+        integrity="sha256-13EKEXRsynh3cmmNF1dlW6uvoC1SZVaW94bIHZQJoMU=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js" integrity="sha256-6DDZX77BrYnAmK9a3N3tvNPtyTIk1q1w9iW+UBtot3Y="
+        crossorigin="anonymous"></script>
 </head>
+
 <body>
-    
+    <div class="container">
+
+        <!-- <div class="row">
+            <div class="card-panel blue">
+                <span id="project-title" class="text-white">
+                    Project Title
+                </span>
+            </div>
+        </div> -->
+        <nav>
+            <div class="nav-wrapper white">
+                <span class="brand-logo black-text left">Project Title</span>
+                <div class="nav-content">
+                    <div class="input-field right">
+                        <input id="search" type="search" required>
+                        <label class="label-icon" for="search"><i class="material-icons black-text">search</i></label>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <br />
+
+        <div class="row" id="movie-row">
+            <div id="poster-div" class="col s12 m6">
+                <img id="poster" class="responsive-img" src="/assets/images/poster_example.jpg">
+            </div>
+            <div id="movie-info" class="col s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">
+                            Movie Details
+                        </span>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Pariatur sunt voluptatibus
+                            laboriosam libero saepe tempora. Atque fugit velit libero sit qui dignissimos voluptates
+                            illo nulla iure, aliquid sunt! Cum, repudiandae.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" value="cast">Cast</a>
+                        <a href="#" value='reviews'>Reviews</a>
+                        <a href="#" value='revenue'>Revenue</a>
+                        <a href="#" value='quotes'>Quotes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="music-row">
+            <div class="col s12">
+                <div class="card center">
+                    <div class="card-content">
+                        <span class="card-title text-white">
+                            Movie Soundtrack
+                        </span>
+                        <table>
+                            <thead>
+                                <th>Song</th>
+                                <th>Artist</th>
+                                <th>length</th>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </body>
+
 </html>
