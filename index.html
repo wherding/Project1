@@ -10,6 +10,9 @@
         integrity="sha256-13EKEXRsynh3cmmNF1dlW6uvoC1SZVaW94bIHZQJoMU=" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js" integrity="sha256-6DDZX77BrYnAmK9a3N3tvNPtyTIk1q1w9iW+UBtot3Y="
         crossorigin="anonymous"></script>
+        <!-- jQuery JS 3.1.0 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="/assets/javascript/omdb.js"></script>
 </head>
 
 <body>
@@ -20,7 +23,7 @@
                 <span class="brand-logo black-text left">Project Title</span>
                 <div class="nav-content">
                     <div class="input-field right">
-                        <input id="search" type="search" required>
+                        <input id="search" type="search">
                         <label class="label-icon" for="search"><i class="material-icons black-text">search</i></label>
                     </div>
                 </div>
@@ -35,18 +38,17 @@
             <div id="movie-info" class="col s12 m6">
                 <div class="card">
                     <div class="card-content">
-                        <span class="card-title">
-                            Movie Details
+                        <span id="movie-details-title" class="card-title">
+                            <strong>Movie Details</strong>
                         </span>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Pariatur sunt voluptatibus
-                            laboriosam libero saepe tempora. Atque fugit velit libero sit qui dignissimos voluptates
-                            illo nulla iure, aliquid sunt! Cum, repudiandae.</p>
+                        <span id="movie-details-space">
+
+                        </span>
                     </div>
                     <div class="card-action">
-                        <a href="#" value="cast">Cast</a>
-                        <a href="#" value='reviews'>Reviews</a>
-                        <a href="#" value='revenue'>Revenue</a>
-                        <a href="#" value='quotes'>Quotes</a>
+                        <a href="#" class="movie-snippet" value='synopsis'>Synopsis</a>
+                        <a href="#" class="movie-snippet" value="cast">Cast</a>
+                        <a href="#" class="movie-snippet" value='reviews'>Reviews</a>
                     </div>
                 </div>
             </div>
@@ -57,7 +59,7 @@
                 <div class="card center">
                     <div class="card-content">
                         <span class="card-title text-white">
-                            Movie Soundtrack
+                            <strong>Movie Soundtrack</strong>
                         </span>
                         <table>
                             <thead>
