@@ -22,7 +22,6 @@ $(document).ready(function () {
                     $('#poster').attr('src', res.Poster)
                     $('#movie-details-title').html('<strong>Synopsis</strong>');
                 });
-            $(this).val('');
         }
     })
 
