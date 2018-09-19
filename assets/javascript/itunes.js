@@ -11,6 +11,7 @@ $(document).ready(function () {
                 method: 'GET'
             })
                 .then(function (res) {
+                    res = JSON.parse(res);
                     console.log(res);
                 })
         }
