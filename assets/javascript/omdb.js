@@ -2,14 +2,6 @@ $(document).ready(function () {
 
     var movieInfo;
 
-    //spotify
-
-    $.ajax({
-        url: 'https://api.spotify.com/v1/search?q=muse&type=artist',
-        method: 'GET'
-    }).then(res => console.log(res));
-
-
 
     $('#search').on('keypress', function (event) {
         if (event.which == '13') {
