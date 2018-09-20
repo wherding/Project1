@@ -6,6 +6,7 @@ $(document).ready(function () {
 
             let searchTerm = $('#search').val();
             console.log('Search: ' + searchTerm);
+            $('#tracks').empty();
 
             $.ajax({
                 url: 'https://itunes.apple.com/search?term=' + searchTerm + '&media=movie&entity=album&limit=10',
@@ -46,6 +47,7 @@ $(document).ready(function () {
                             audioTableData.append(audioElement);
                             row.append(song, artist, audioTableData);
                             $('#tracks').append(row);
+                            $('#search').val('');
                         })
 
                     })
