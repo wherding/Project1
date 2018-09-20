@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var db = firebase.database();
 
     $('#search').on('keypress', function(event){
 
@@ -7,6 +8,12 @@ $(document).ready(function () {
             let searchTerm = $('#search').val();
             console.log('Search: ' + searchTerm);
             $('#tracks').empty();
+            //begin logging searches in firebase
+            db.ref('searches/').push({
+                searchTerm:searchTerm
+            })
+
+            //end logging searches in firebase
 
             $.ajax({
                 url: 'https://itunes.apple.com/search?term=' + searchTerm + '&media=movie&entity=album&limit=10',
