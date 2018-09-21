@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var db = firebase.database();
 
     var synopsis;
     var cast = [];
@@ -30,7 +31,7 @@ $(document).ready(function () {
                         .then(function (res) {
                             console.log('Second');
                             console.log(res);
-                            posterUrl = 'https://image.tmdb.org/t/p/original/' + res.images.posters[0].file_path;
+                            posterUrl = 'https://image.tmdb.org/t/p/w500/' + res.images.posters[0].file_path;
                             synopsis = res.overview;
                             $('#movie-details-space').empty();
                             $('#movie-details-space').append($('<p>' + synopsis + '</p>'));
@@ -41,63 +42,80 @@ $(document).ready(function () {
                             cast = res.credits.cast;
                             movieTitle = res.original_title;
                             $('#poster').attr('src', 'https://image.tmdb.org/t/p/original/' + res.poster_path);
-                        
-                        //itunes call based on returned movie info:
-                        $.ajax({
-                            url: 'https://itunes.apple.com/search?term=' + movieTitle + '&media=movie&entity=album&limit=10',
-                            method: 'GET'
-                        })
-                            .then(function (res) {
-                                res = JSON.parse(res);
-            
-                                let albumId = res.results[0].collectionId;
-            
-                                $.ajax({
-                                    url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
-                                    method: 'GET'
-                                })
-                                    .then(function (res) {
-                                        $('#tracks').empty();
-            
-                                        res = JSON.parse(res);
-                                        let tracks = res.results.slice(1, res.results.length);
-            
-                                        tracks.forEach(track => {
-                                            let row = $('<tr>');
-                                            let audioTableData = $('<td>');
-                                            let audioElement = $('<audio controls></audio>');
-                                            let audioSource = $('<source>');
-                                            audioSource.attr('src', track.previewUrl);
-                                            audioSource.attr('type', 'audio/mpeg');
-            
-                                            let song = $('<td>' + track.trackName + '</td>');
-                                            let artist = $('<td>' + track.artistName + '</td>');
-            
-                                            audioElement.append(audioSource);
-                                            audioTableData.append(audioElement);
-                                            row.append(song, artist, audioTableData);
-                                            $('#tracks').append(row);
-                                            $('#search').val('');
-                                        })
-            
+
+                            //Add search to firebase 'searches' path
+
+                            let db = firebase.database();
+
+                            let movieRef = db.ref('/search/' + movieTitle);
+
+                            movieRef.once('value').then(snap => {
+                                if (snap.exists()) {
+                                    let hits = snap.val() + 1;
+                                    movieRef.set(hits)
+                                }
+                                else {
+                                    movieRef.set(1)
+                                }
+
+                                var pop = db.ref('/search/').orderByValue();
+                                pop.once('value')
+                                    .then(function (snap) {
+                                       snap.forEach(movie =>{
+                                           console.log(movie.key + ', ' + movie.val());
+                                       })
                                     })
                             })
-                        
+
+
                         });
 
+                    //itunes call based on returned movie info:
+                    $.ajax({
+                        url: 'https://itunes.apple.com/search?term=' + movieTitle + '&media=movie&entity=album&limit=10',
+                        method: 'GET'
+                    })
+                        .then(function (res) {
+                            res = JSON.parse(res);
+
+                            let albumId = res.results[0].collectionId;
+
+                            $.ajax({
+                                url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
+                                method: 'GET'
+                            })
+                                .then(function (res) {
+                                    $('#tracks').empty();
+
+                                    res = JSON.parse(res);
+                                    let tracks = res.results.slice(1, res.results.length);
+
+                                    tracks.forEach(track => {
+                                        let row = $('<tr>');
+                                        let audioTableData = $('<td>');
+                                        let audioElement = $('<audio controls></audio>');
+                                        let audioSource = $('<source>');
+                                        audioSource.attr('src', track.previewUrl);
+                                        audioSource.attr('type', 'audio/mpeg');
+
+                                        let song = $('<td>' + track.trackName + '</td>');
+                                        let artist = $('<td>' + track.artistName + '</td>');
+
+                                        audioElement.append(audioSource);
+                                        audioTableData.append(audioElement);
+                                        row.append(song, artist, audioTableData);
+                                        $('#tracks').append(row);
+                                        $('#search').val('');
+                                    })
+
+                                })
+                        })
 
                 });
 
-
-
-
-
-
-
-
         }
-
     });
+
 
 
     function getCast() {
@@ -125,5 +143,4 @@ $(document).ready(function () {
         }
 
     })
-
-});
+})
