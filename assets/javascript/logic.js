@@ -7,12 +7,12 @@ $(document).ready(function () {
     var posterUrl;
     var gallery = [];
     var trailerUrl;
-
+    var movieTitle
 
     $('#search').on('keypress', function (event) {
         if (event.which === 13) {
             let key = '2adc170b69082ad840069650a7c752fc';
-            var movieTitle = $(this).val();
+            movieTitle = $(this).val();
 
             let query = 'https://api.themoviedb.org/3/search/movie?api_key=' + key + '&query=' + movieTitle;
 
@@ -39,16 +39,63 @@ $(document).ready(function () {
                             gallery = res.images.backdrops;
                             trailerUrl = res.videos.results[0].id;
                             cast = res.credits.cast;
-
+                            movieTitle = res.original_title;
                             $('#poster').attr('src', 'https://image.tmdb.org/t/p/original/' + res.poster_path);
+                        
+                        //itunes call based on returned movie info:
+                        $.ajax({
+                            url: 'https://itunes.apple.com/search?term=' + movieTitle + '&media=movie&entity=album&limit=10',
+                            method: 'GET'
+                        })
+                            .then(function (res) {
+                                res = JSON.parse(res);
+            
+                                let albumId = res.results[0].collectionId;
+            
+                                $.ajax({
+                                    url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
+                                    method: 'GET'
+                                })
+                                    .then(function (res) {
+                                        $('#tracks').empty();
+            
+                                        res = JSON.parse(res);
+                                        let tracks = res.results.slice(1, res.results.length);
+            
+                                        tracks.forEach(track => {
+                                            let row = $('<tr>');
+                                            let audioTableData = $('<td>');
+                                            let audioElement = $('<audio controls></audio>');
+                                            let audioSource = $('<source>');
+                                            audioSource.attr('src', track.previewUrl);
+                                            audioSource.attr('type', 'audio/mpeg');
+            
+                                            let song = $('<td>' + track.trackName + '</td>');
+                                            let artist = $('<td>' + track.artistName + '</td>');
+            
+                                            audioElement.append(audioSource);
+                                            audioTableData.append(audioElement);
+                                            row.append(song, artist, audioTableData);
+                                            $('#tracks').append(row);
+                                            $('#search').val('');
+                                        })
+            
+                                    })
+                            })
+                        
                         });
+
+
                 });
 
+
+
+
+
+
+
+
         }
-
-        $('#tracks').empty();
-
-
 
     });
 
@@ -78,68 +125,5 @@ $(document).ready(function () {
         }
 
     })
-
-    $('#search').on('keypress', function (event) {
-
-        if (event.which === 13) {
-
-            let movieTitle = $('#search').val();
-            console.log('Search: ' + movieTitle);
-            $('#tracks').empty();
-            //begin logging searches in firebase
-            // db.ref('searches/').push({
-            //     searchTerm: searchTerm
-            // })
-
-            //end logging searches in firebase
-
-            $.ajax({
-                url: 'https://itunes.apple.com/search?term=' + movieTitle + '&media=movie&entity=album&limit=10',
-                method: 'GET'
-            })
-                .then(function (res) {
-                    res = JSON.parse(res);
-                    console.log(res.results[0]);
-
-                    // let img = $('<img>');
-                    // img.attr('src', res.results[0].artworkUrl60);
-                    // img.attr('alt', res.results[0].collectionName);
-                    // $('#soundtrack-card').append(img);
-
-                    let albumId = res.results[0].collectionId;
-
-                    $.ajax({
-                        url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
-                        method: 'GET'
-                    })
-                        .then(function (res) {
-                            res = JSON.parse(res);
-                            console.log(res);
-                            let tracks = res.results.slice(1, res.results.length);
-
-                            tracks.forEach(track => {
-                                let row = $('<tr>');
-                                let audioTableData = $('<td>');
-                                let audioElement = $('<audio controls></audio>');
-                                let audioSource = $('<source>');
-                                audioSource.attr('src', track.previewUrl);
-                                audioSource.attr('type', 'audio/mpeg');
-
-                                let song = $('<td>' + track.trackName + '</td>');
-                                let artist = $('<td>' + track.artistName + '</td>');
-
-                                audioElement.append(audioSource);
-                                audioTableData.append(audioElement);
-                                row.append(song, artist, audioTableData);
-                                $('#tracks').append(row);
-                                $('#search').val('');
-                            })
-
-                        })
-                })
-
-        }
-    });
-
 
 });
