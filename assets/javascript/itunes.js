@@ -23,10 +23,9 @@ $(document).ready(function () {
                     res = JSON.parse(res);
                     console.log(res.results[0]);
 
-                    // let img = $('<img>');
-                    // img.attr('src', res.results[0].artworkUrl60);
-                    // img.attr('alt', res.results[0].collectionName);
-                    // $('#soundtrack-card').append(img);
+                
+                    $('#soundtrack-card').attr('src', res.results[0].artworkUrl60);
+
 
                     let albumId = res.results[0].collectionId;
 
