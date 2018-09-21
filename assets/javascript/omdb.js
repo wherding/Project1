@@ -45,7 +45,7 @@ $(document).ready(function () {
             case 'reviews':
                 $('#movie-details-space').empty();
                 movieInfo.Ratings.forEach(rating => {
-                    let ratingElement = $('<p>' + rating.Source + ': ' + rating.Value + '</p>');
+                    let ratingElement = $('<p><strong>' + rating.Source + '</strong>: ' + rating.Value + '</p>');
                     $('#movie-details-space').append(ratingElement);
                 });
                 // $('#movie-details-title').html('<strong>Reviews</strong>');

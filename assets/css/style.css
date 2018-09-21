@@ -11,6 +11,14 @@ nav .brand-logo {
   color: #444;
 }
 
+#movie-info{
+  padding: 30px;
+}
+
+.movie-snippet{
+  padding: 15px;
+}
+
 .parallax{
   background-repeat:repeat;
 }
