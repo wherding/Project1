@@ -10,8 +10,25 @@ $(document).ready(function () {
     var trailerUrl;
     var movieTitle
 
-$("#movie-details-space").text("Search a movie at the top to learn more about it.");    
-    $('#search').on('keypress', function (event) { 
+    //display top movies
+    var i = 0;
+    var pop = db.ref('/search/').orderByValue().limitToLast(3);
+    pop.once('value')
+
+        .then(function (snap) {
+            snap.forEach(movie => {
+                var btn = $("<button>")
+                btn.text(movie.key)
+                btn.addClass("btn-large light")
+                $(".popularMovies").append(btn)
+
+                console.log("number: " + i++ + " " + movie.key + ', ' + movie.val());
+            })
+        })
+
+
+    $("#movie-details-space").text("Search a movie at the top to learn more about it.");
+    $('#search').on('keypress', function (event) {
         if (event.which === 13) {
             let key = '2adc170b69082ad840069650a7c752fc';
             movieTitle = $(this).val();
@@ -45,7 +62,7 @@ $("#movie-details-space").text("Search a movie at the top to learn more about it
                             $('#bg-1').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[0].file_path);
                             $('#bg-2').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[(Math.floor(res.images.backdrops.length / 2))].file_path);
                             $('#bg-3').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[(res.images.backdrops.length - 1)].file_path);
-                           
+
                             //Add search to firebase 'searches' path
 
                             let db = firebase.database();
@@ -60,17 +77,26 @@ $("#movie-details-space").text("Search a movie at the top to learn more about it
                                 else {
                                     movieRef.set(1)
                                 }
-
-                                var pop = db.ref('/search/').orderByValue();
+                                var pop = db.ref('/search/').orderByValue().limitToLast(3);
                                 pop.once('value')
-                                    .then(function (snap) {
-                                        snap.forEach(movie => {
-                                            //console.log(movie.key + ', ' + movie.val());
-                                        })
-                                    })
-                            })
 
-                            //itunes call based on returned movie info:
+                                    .then(function (snap) {
+                                      //  console.log( movie.key + ', ' + movie.val());
+                                    })
+                        })
+
+                    //itunes call based on returned movie info:
+                    $.ajax({
+                        url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
+                        method: 'GET',
+                        dataType: 'jsonp',
+                        crossDomain: 'true'
+                    })
+                        .then(function (res) {
+                            res = JSON.parse(res);
+
+                            let albumId = res.results[0].collectionId;
+
                             $.ajax({
                                 url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
                                 method: 'GET',
@@ -78,77 +104,66 @@ $("#movie-details-space").text("Search a movie at the top to learn more about it
                                 crossDomain: 'true'
                             })
                                 .then(function (res) {
-                                    res = JSON.parse(res);
+                                    $('#tracks').empty();
+                                    console.log(res);
+                                    //res = JSONP.parse(res);
+                                    let tracks = res.results.slice(1, res.results.length);
 
-                                    let albumId = res.results[0].collectionId;
+                                    tracks.forEach(track => {
+                                        let row = $('<tr>');
+                                        let audioTableData = $('<td>');
+                                        let audioElement = $('<audio controls></audio>');
+                                        let audioSource = $('<source>');
+                                        audioSource.attr('src', track.previewUrl);
+                                        audioSource.attr('type', 'audio/mpeg');
 
-                                    $.ajax({
-                                        url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
-                                        method: 'GET',
-                                        dataType: 'jsonp',
-                                        crossDomain: 'true'
+                                        let song = $('<td>' + track.trackName + '</td>');
+                                        let artist = $('<td>' + track.artistName + '</td>');
+
+                                        audioElement.append(audioSource);
+                                        audioTableData.append(audioElement);
+                                        row.append(song, artist, audioTableData);
+                                        $('#tracks').append(row);
+                                        $('#search').val('');
                                     })
-                                        .then(function (res) {
-                                            $('#tracks').empty();
-                                            console.log(res);
-                                            //res = JSONP.parse(res);
-                                            let tracks = res.results.slice(1, res.results.length);
 
-                                            tracks.forEach(track => {
-                                                let row = $('<tr>');
-                                                let audioTableData = $('<td>');
-                                                let audioElement = $('<audio controls></audio>');
-                                                let audioSource = $('<source>');
-                                                audioSource.attr('src', track.previewUrl);
-                                                audioSource.attr('type', 'audio/mpeg');
-
-                                                let song = $('<td>' + track.trackName + '</td>');
-                                                let artist = $('<td>' + track.artistName + '</td>');
-
-                                                audioElement.append(audioSource);
-                                                audioTableData.append(audioElement);
-                                                row.append(song, artist, audioTableData);
-                                                $('#tracks').append(row);
-                                                $('#search').val('');
-                                            })
-
-                                        })
                                 })
-
-                        });
-
-
+                        })
 
                 });
 
-        }
+
+
+        });
+
+}
     });
 
 
 
-    function getCast() {
-        $('#movie-details-space').empty();
-        for (let i = 0; i < 10; i++) {
-            let newElement = $('<p>');
-            //console.log(actorElement.text());
-            newElement.text(cast[i].name);
-            $('#movie-details-space').append(newElement);
-        };
+function getCast() {
+    $('#movie-details-space').empty();
+    for (let i = 0; i < 10; i++) {
+        let newElement = $('<p>');
+        //console.log(actorElement.text());
+        newElement.text(cast[i].name);
+        $('#movie-details-space').append(newElement);
+    };
+}
+
+$('.movie-snippet').on('click', function () {
+    let linkValue = $(this).attr('value');
+    let movieDetails = $('#movie-details-space');
+
+    switch (linkValue) {
+        case 'synopsis':
+            movieDetails.text(synopsis);
+            break;
+        case 'cast':
+            getCast();
+            break;
+
     }
 
-    $('.movie-snippet').on('click', function () {
-        let linkValue = $(this).attr('value');
-        let movieDetails = $('#movie-details-space');
-
-        switch (linkValue) {
-            case 'synopsis':
-                movieDetails.text(synopsis);
-                break;
-            case 'cast':
-                getCast();
-                break;
-
-        }
-
-    })
+})
 })
