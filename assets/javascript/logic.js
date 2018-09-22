@@ -84,6 +84,7 @@ $(document).ready(function () {
                                 url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
                                 method: 'GET',
                                 dataType: 'jsonp',
+                                crossDomain: 'true'
                                 
                             })
                                 .then(function (res) {
