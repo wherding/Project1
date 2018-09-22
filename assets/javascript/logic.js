@@ -3,15 +3,17 @@ $(document).ready(function () {
 
     var synopsis;
     var cast = [];
-    var releaseDate;
     var runTime;
-    var posterUrl;
-    var gallery = [];
     var trailerUrl;
+    var gallery;
     var movieTitle
+    var reviews; 
+    var genre;
 
 $("#movie-details-space").text("Search a movie at the top to learn more about it.");    
-    $('#search').on('keypress', function (event) { 
+    
+
+$('#search').on('keypress', function (event) { 
         if (event.which === 13) {
             let key = '2adc170b69082ad840069650a7c752fc';
             movieTitle = $(this).val();
@@ -30,23 +32,23 @@ $("#movie-details-space").text("Search a movie at the top to learn more about it
                         method: 'GET'
                     })
                         .then(function (res) {
-                            //console.log('Second');
-                            //console.log(res);
+                            console.log('TMDB Second');
+                            console.log(res);
                             posterUrl = 'https://image.tmdb.org/t/p/w500/' + res.images.posters[0].file_path;
                             synopsis = res.overview;
                             $('#movie-details-space').empty();
                             $('#movie-details-space').append($('<p>' + synopsis + '</p>'));
-                            releaseDate = res.release_date;
                             runTime = res.runtime;
-                            gallery = res.images.backdrops;
                             trailerUrl = res.videos.results[0].id;
                             cast = res.credits.cast;
                             movieTitle = res.original_title;
+                            genre = res.genres;
+                            gallery = res.images.backdrops;
                             $('#bg-1').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[0].file_path);
                             $('#bg-2').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[(Math.floor(res.images.backdrops.length / 2))].file_path);
                             $('#bg-3').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[(res.images.backdrops.length - 1)].file_path);
                            
-                            //Add search to firebase 'searches' path
+                            //////////////////Add search to firebase 'searches' path//////////////////////////////
 
                             let db = firebase.database();
 
@@ -70,27 +72,40 @@ $("#movie-details-space").text("Search a movie at the top to learn more about it
                                     })
                             })
 
-                            //itunes call based on returned movie info:
+                            ////////////////////////omdb call to get reviews////////////////////////////////////
+                            let omdbKey = 'a34a6a5f';
                             $.ajax({
-                                url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
+                                url: 'https://www.omdbapi.com/?apikey=' + omdbKey + '&t=' + movieTitle,
+                                method: 'GET'
+                            })
+                            .then(res => {
+                                console.log('omdb: ');
+                                console.log(res);
+                                reviews = res.Ratings;
+                            })
+
+                            ///////////////////itunes call based on returned movie info//////////////////////////////
+                            $.ajax({
+                                url: 'https://itunes.apple.com/search?term=' + movieTitle + '&media=movie&entity=album&limit=10',
                                 method: 'GET',
-                                dataType: 'jsonp',
-                                crossDomain: 'true'
+                                dataType: 'jsonp'
+                                //crossDomain: true
                             })
                                 .then(function (res) {
-                                    res = JSON.parse(res);
-
+                                    //res = JSON.parse(res);
+                                    //console.log('Itunes: ');
+                                   // console.log(res);
                                     let albumId = res.results[0].collectionId;
 
                                     $.ajax({
                                         url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
                                         method: 'GET',
-                                        dataType: 'jsonp',
-                                        crossDomain: 'true'
+                                        dataType: 'jsonp'
+                                        //crossDomain: true
                                     })
                                         .then(function (res) {
                                             $('#tracks').empty();
-                                            console.log(res);
+                                            //console.log(res);
                                             //res = JSONP.parse(res);
                                             let tracks = res.results.slice(1, res.results.length);
 
@@ -136,9 +151,12 @@ $("#movie-details-space").text("Search a movie at the top to learn more about it
         };
     }
 
+
+
     $('.movie-snippet').on('click', function () {
         let linkValue = $(this).attr('value');
         let movieDetails = $('#movie-details-space');
+        movieDetails.empty();
 
         switch (linkValue) {
             case 'synopsis':
@@ -146,6 +164,32 @@ $("#movie-details-space").text("Search a movie at the top to learn more about it
                 break;
             case 'cast':
                 getCast();
+                break;
+            case 'gallery':
+                let slideshow = $('<div class="carousel carousel-slider"></div>');
+                gallery.forEach(img =>{
+                    let item = $('<a class="carousel-item" href="#"><img src="https://image.tmdb.org/t/p/original/' + img.file_path + '"></a>');
+                    console.log(img.file_path);
+                    slideshow.append(item);
+                    movieDetails.append(slideshow);
+                    $('.carousel.carousel-slider').carousel({fullWidth: true});
+                })
+                break;
+            case 'genre':
+                genre.forEach(genre => {
+                    let p = $('<p>');
+                    p.text(genre.name);
+                    movieDetails.append(p);
+                })
+                break;
+            case 'rating':
+                reviews.forEach(review => {
+                    let p = $('<p>' + review.Source + ': ' + review.Value + '</p>');
+                    movieDetails.append(p);
+                })
+                break;
+            case 'runtime':
+                movieDetails.text(runTime + ' minutes');
                 break;
 
         }
