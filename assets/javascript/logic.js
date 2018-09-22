@@ -10,10 +10,32 @@ $(document).ready(function () {
     var reviews; 
     var genre;
 
+
+    //display top movies
+    var i = 0;
+    var pop = db.ref('/search/').orderByValue().limitToLast(3);
+    pop.once('value')
+
+        .then(function (snap) {
+            snap.forEach(movie => {
+                var btn = $("<button>")
+                btn.text(movie.key)
+                btn.addClass("btn-large light")
+                $(".popularMovies").append(btn)
+
+                console.log("number: " + i++ + " " + movie.key + ', ' + movie.val());
+            })
+        })
+
+
+    $("#movie-details-space").text("Search a movie at the top to learn more about it.");
+    $('#search').on('keypress', function (event) {
+
 $("#movie-details-space").text("Search a movie at the top to learn more about it.");    
     
 
 $('#search').on('keypress', function (event) { 
+
         if (event.which === 13) {
             let key = '2adc170b69082ad840069650a7c752fc';
             movieTitle = $(this).val();
@@ -47,6 +69,7 @@ $('#search').on('keypress', function (event) {
                             $('#bg-1').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[0].file_path);
                             $('#bg-2').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[(Math.floor(res.images.backdrops.length / 2))].file_path);
                             $('#bg-3').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[(res.images.backdrops.length - 1)].file_path);
+
                            
                             //////////////////Add search to firebase 'searches' path//////////////////////////////
 
@@ -62,15 +85,27 @@ $('#search').on('keypress', function (event) {
                                 else {
                                     movieRef.set(1)
                                 }
-
-                                var pop = db.ref('/search/').orderByValue();
+                                var pop = db.ref('/search/').orderByValue().limitToLast(3);
                                 pop.once('value')
+
                                     .then(function (snap) {
-                                        snap.forEach(movie => {
-                                            //console.log(movie.key + ', ' + movie.val());
-                                        })
+                                      //  console.log( movie.key + ', ' + movie.val());
                                     })
-                            })
+                        })
+
+                    //itunes call based on returned movie info:
+                    $.ajax({
+                        url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
+                        method: 'GET',
+                        dataType: 'jsonp',
+                        crossDomain: 'true'
+                    })
+                        .then(function (res) {
+                            res = JSON.parse(res);
+
+                            let albumId = res.results[0].collectionId;
+
+
 
                             ////////////////////////omdb call to get reviews////////////////////////////////////
                             let omdbKey = 'a34a6a5f';
@@ -85,6 +120,7 @@ $('#search').on('keypress', function (event) {
                             })
 
                             ///////////////////itunes call based on returned movie info//////////////////////////////
+
                             $.ajax({
                                 url: 'https://itunes.apple.com/search?term=' + movieTitle + '&media=movie&entity=album&limit=10',
                                 method: 'GET',
@@ -92,6 +128,7 @@ $('#search').on('keypress', function (event) {
                                 //crossDomain: true
                             })
                                 .then(function (res) {
+
                                     //res = JSON.parse(res);
                                     //console.log('Itunes: ');
                                    // console.log(res);
@@ -128,28 +165,30 @@ $('#search').on('keypress', function (event) {
                                             })
 
                                         })
+
                                 })
-
-                        });
-
-
+                        })
 
                 });
 
-        }
+
+
+        });
+
+}
     });
 
 
 
-    function getCast() {
-        $('#movie-details-space').empty();
-        for (let i = 0; i < 10; i++) {
-            let newElement = $('<p>');
-            //console.log(actorElement.text());
-            newElement.text(cast[i].name);
-            $('#movie-details-space').append(newElement);
-        };
-    }
+function getCast() {
+    $('#movie-details-space').empty();
+    for (let i = 0; i < 10; i++) {
+        let newElement = $('<p>');
+        //console.log(actorElement.text());
+        newElement.text(cast[i].name);
+        $('#movie-details-space').append(newElement);
+    };
+}
 
 
 
@@ -192,7 +231,8 @@ $('#search').on('keypress', function (event) {
                 movieDetails.text(runTime + ' minutes');
                 break;
 
-        }
 
-    })
+    }
+
+})
 })
