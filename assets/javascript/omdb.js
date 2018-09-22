@@ -20,7 +20,7 @@ $(document).ready(function () {
                     $('#movie-details-space').empty();
                     $('#movie-details-space').append(synopsis);
                     $('#poster').attr('src', res.Poster)
-                    $('#movie-details-title').html('<strong>Synopsis</strong>');
+                    // $('#movie-details-title').html('<strong>Synopsis</strong>');
                 });
         }
     })
@@ -33,22 +33,22 @@ $(document).ready(function () {
                 actors.forEach(actor => {
                     let actorElement = $('<p>' + actor + '</p>');
                     $('#movie-details-space').append(actorElement);
-                    $('#movie-details-title').html('<strong>Cast</strong>');
+                    // $('#movie-details-title').html('<strong>Cast</strong>');
                 })
                 break;
             case 'synopsis':
                 $('#movie-details-space').empty();
                 let synopsisElement = $('<p>' + movieInfo.Plot + '</p>');
                 $('#movie-details-space').append(synopsisElement);
-                $('#movie-details-title').html('<strong>Synopsis</strong>');
+                // $('#movie-details-title').html('<strong>Synopsis</strong>');
                 break;
             case 'reviews':
                 $('#movie-details-space').empty();
                 movieInfo.Ratings.forEach(rating => {
-                    let ratingElement = $('<p>' + rating.Source + ': ' + rating.Value + '</p>');
+                    let ratingElement = $('<p><strong>' + rating.Source + '</strong>: ' + rating.Value + '</p>');
                     $('#movie-details-space').append(ratingElement);
                 });
-                $('#movie-details-title').html('<strong>Reviews</strong>');
+                // $('#movie-details-title').html('<strong>Reviews</strong>');
                 break;
         }
     });
