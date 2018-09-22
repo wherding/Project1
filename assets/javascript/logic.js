@@ -82,7 +82,9 @@ $(document).ready(function () {
 
                             $.ajax({
                                 url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
-                                method: 'GET'
+                                method: 'GET',
+                                dataType: 'jsonp',
+                                
                             })
                                 .then(function (res) {
                                     $('#tracks').empty();
