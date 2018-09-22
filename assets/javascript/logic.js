@@ -41,8 +41,10 @@ $(document).ready(function () {
                             trailerUrl = res.videos.results[0].id;
                             cast = res.credits.cast;
                             movieTitle = res.original_title;
-                            $('#poster').attr('src', 'https://image.tmdb.org/t/p/original/' + res.poster_path);
-
+                            $('#bg-1').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[0].file_path);
+                            $('#bg-2').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[(Math.floor(res.images.backdrops.length / 2))].file_path);
+                            $('#bg-3').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[(res.images.backdrops.length - 1)].file_path);
+                           
                             //Add search to firebase 'searches' path
 
                             let db = firebase.database();
@@ -61,55 +63,56 @@ $(document).ready(function () {
                                 var pop = db.ref('/search/').orderByValue();
                                 pop.once('value')
                                     .then(function (snap) {
-                                       snap.forEach(movie =>{
-                                           console.log(movie.key + ', ' + movie.val());
-                                       })
+                                        snap.forEach(movie => {
+                                            console.log(movie.key + ', ' + movie.val());
+                                        })
                                     })
                             })
 
-
-                        });
-
-                    //itunes call based on returned movie info:
-                    $.ajax({
-                        url: 'https://itunes.apple.com/search?term=' + movieTitle + '&media=movie&entity=album&limit=10',
-                        method: 'GET'
-                    })
-                        .then(function (res) {
-                            res = JSON.parse(res);
-
-                            let albumId = res.results[0].collectionId;
-
+                            //itunes call based on returned movie info:
                             $.ajax({
-                                url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
+                                url: 'https://itunes.apple.com/search?term=' + movieTitle + '&media=movie&entity=album&limit=10',
                                 method: 'GET'
                             })
                                 .then(function (res) {
-                                    $('#tracks').empty();
-
                                     res = JSON.parse(res);
-                                    let tracks = res.results.slice(1, res.results.length);
 
-                                    tracks.forEach(track => {
-                                        let row = $('<tr>');
-                                        let audioTableData = $('<td>');
-                                        let audioElement = $('<audio controls></audio>');
-                                        let audioSource = $('<source>');
-                                        audioSource.attr('src', track.previewUrl);
-                                        audioSource.attr('type', 'audio/mpeg');
+                                    let albumId = res.results[0].collectionId;
 
-                                        let song = $('<td>' + track.trackName + '</td>');
-                                        let artist = $('<td>' + track.artistName + '</td>');
-
-                                        audioElement.append(audioSource);
-                                        audioTableData.append(audioElement);
-                                        row.append(song, artist, audioTableData);
-                                        $('#tracks').append(row);
-                                        $('#search').val('');
+                                    $.ajax({
+                                        url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
+                                        method: 'GET',
                                     })
+                                        .then(function (res) {
+                                            $('#tracks').empty();
 
+                                            res = JSON.parse(res);
+                                            let tracks = res.results.slice(1, res.results.length);
+
+                                            tracks.forEach(track => {
+                                                let row = $('<tr>');
+                                                let audioTableData = $('<td>');
+                                                let audioElement = $('<audio controls></audio>');
+                                                let audioSource = $('<source>');
+                                                audioSource.attr('src', track.previewUrl);
+                                                audioSource.attr('type', 'audio/mpeg');
+
+                                                let song = $('<td>' + track.trackName + '</td>');
+                                                let artist = $('<td>' + track.artistName + '</td>');
+
+                                                audioElement.append(audioSource);
+                                                audioTableData.append(audioElement);
+                                                row.append(song, artist, audioTableData);
+                                                $('#tracks').append(row);
+                                                $('#search').val('');
+                                            })
+
+                                        })
                                 })
-                        })
+
+                        });
+
+
 
                 });
 
