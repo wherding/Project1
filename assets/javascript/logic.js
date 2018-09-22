@@ -10,7 +10,8 @@ $(document).ready(function () {
     var trailerUrl;
     var movieTitle
 
-    $('#search').on('keypress', function (event) {
+$("#movie-details-space").text("Search a movie at the top to learn more about it.");    
+    $('#search').on('keypress', function (event) { 
         if (event.which === 13) {
             let key = '2adc170b69082ad840069650a7c752fc';
             movieTitle = $(this).val();
