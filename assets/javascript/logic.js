@@ -72,8 +72,10 @@ $("#movie-details-space").text("Search a movie at the top to learn more about it
 
                             //itunes call based on returned movie info:
                             $.ajax({
-                                url: 'https://itunes.apple.com/search?term=' + movieTitle + '&media=movie&entity=album&limit=10',
-                                method: 'GET'
+                                url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
+                                method: 'GET',
+                                dataType: 'jsonp',
+                                crossDomain: 'true'
                             })
                                 .then(function (res) {
                                     res = JSON.parse(res);
