@@ -22,15 +22,15 @@ $(document).ready(function () {
                 method: 'GET'
             })
                 .then(function (res) {
-                    console.log('First');
-                    console.log(res);
+                    //console.log('First');
+                    //console.log(res);
                     $.ajax({
                         url: 'https://api.themoviedb.org/3/movie/' + res.results[0].id + '?api_key=' + key + '&append_to_response=credits,reviews,videos,images',
                         method: 'GET'
                     })
                         .then(function (res) {
-                            console.log('Second');
-                            console.log(res);
+                            //console.log('Second');
+                            //console.log(res);
                             posterUrl = 'https://image.tmdb.org/t/p/w500/' + res.images.posters[0].file_path;
                             synopsis = res.overview;
                             $('#movie-details-space').empty();
@@ -64,7 +64,7 @@ $(document).ready(function () {
                                 pop.once('value')
                                     .then(function (snap) {
                                         snap.forEach(movie => {
-                                            console.log(movie.key + ', ' + movie.val());
+                                            //console.log(movie.key + ', ' + movie.val());
                                         })
                                     })
                             })
@@ -82,11 +82,13 @@ $(document).ready(function () {
                                     $.ajax({
                                         url: 'https://itunes.apple.com/lookup?id=' + albumId + '&entity=song',
                                         method: 'GET',
+                                        dataType: 'jsonp',
+                                        crossDomain: 'true'
                                     })
                                         .then(function (res) {
                                             $('#tracks').empty();
-
-                                            res = JSON.parse(res);
+                                            console.log(res);
+                                            //res = JSONP.parse(res);
                                             let tracks = res.results.slice(1, res.results.length);
 
                                             tracks.forEach(track => {
