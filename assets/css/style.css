@@ -76,3 +76,31 @@ footer.page-footer {
   margin: 5%;
   
 }
+
+.img-left{
+  float: left;
+  width: 40%;
+  height: 350px;
+}
+
+.alt-movie-img{
+  height: 100%;
+}
+
+.content-right{
+  width: 60%;
+  float: left;
+  padding: 20px;
+}
+
+.clear-div{
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.alt-movie-card{
+  padding: 15px;
+  margin: 25px 15px;
+  overflow: auto;
+}
