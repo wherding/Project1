@@ -102,4 +102,5 @@ footer.page-footer {
 .alt-movie-card{
   padding: 15px;
   margin: 25px 15px;
+  overflow: auto;
 }

@@ -3,57 +3,32 @@ $(document).ready(function () {
     var movieObject = {};
     getPopularTitles();
 
-    $('#search').on('search', function (event) {
-        movieTitle = $('#search').val();
+    $(document).on('search', '#search', function (event) {
+        let movieTitle = $('#search').val();
         fullSearch(movieTitle, movieObject);
+        $('movie-details-space').text(movieObject.synopsis);
      });
 
+
     $('.movie-snippet').on('click', function () {
-        let linkValue = $(this).attr('value');
-        let movieDetails = $('#movie-details-space');
-        movieDetails.empty();
-
-        switch (linkValue) {
-            case 'synopsis':
-                movieDetails.text(synopsis);
-                break;
-            case 'cast':
-                getCast(cast);
-                break;
-            case 'gallery':
-                let slideshow = $('<div class="carousel carousel-slider"></div>');
-                gallery.forEach(img => {
-                    let item = $('<a class="carousel-item" href="#"><img src="https://image.tmdb.org/t/p/original/' + img.file_path + '"></a>');
-                    //console.log(img.file_path);
-                    slideshow.append(item);
-                    movieDetails.append(slideshow);
-                    $('.carousel.carousel-slider').carousel({ fullWidth: true });
-                })
-                break;
-            case 'genre':
-                genre.forEach(genre => {
-                    let p = $('<p>');
-                    p.text(genre.name);
-                    movieDetails.append(p);
-                })
-                break;
-            case 'rating':
-                omdbCall(movieTitle, movieDetails, displayReviews);
-                break;
-            case 'runtime':
-                movieDetails.text(runTime + ' minutes');
-                break;
-
-
-        }
-
+        let iconValue = $(this).attr('value');
+        let displayArea = $('#movie-details-space');
+        displayArea.empty();
+        InfoSwitch(iconValue, displayArea, movieObject);
     })
 
     $('.modal').modal();
-    $('#alt-movies-btn').on('click', function(){
+    $(document).on('click', '#alt-movies-btn', function(){
+        console.log(movieObject);
         let displayArea = $('#alt-movies-card-area');
-        displayAlternateMovies(alternateMovies, displayArea);
+        displayAlternateMovies(movieObject.alternateMovies, displayArea);
     });
 
+    $(document).on('click', '.alt-movie-button', function(){
+        let movieTitle = $(this).val();
+        fullSearch(movieTitle, movieObject);
+        $('.modal').modal('close');
+        $('#search').val('');
+    });
 
 })

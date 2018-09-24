@@ -70,7 +70,7 @@ function iTunesCall(movieTitle) {
                     displayTracks(tracks);
                 })
         })
-}
+};
 
 function addSearchToFirebase(movieTitle) {
     let db = firebase.database();
@@ -85,7 +85,7 @@ function addSearchToFirebase(movieTitle) {
             else
                 movieRef.set(1);
         })
-}
+};
 
 function getCast(cast) {
     for (let i = 0; i < 10; i++) {
@@ -93,20 +93,19 @@ function getCast(cast) {
         newElement.text(cast[i].name);
         $('#movie-details-space').append(newElement);
     };
-}
+};
 
 function displayAlternateMovies(alternateMovies, displayArea){
     displayArea.empty();
-    console.log(alternateMovies);
     alternateMovies.forEach(movie =>{
         let card = $('<div class="card alt-movie-card"></div>');
-        let img = $('<div class="card-image img-left"><button class="alt-movie-btn" value="' + movie.original_title + '"><img class="alt-movie-img" src="https://image.tmdb.org/t/p/w500/' + movie.poster_path + '"></button></div>');
-        let content = $('<div class="content-right"><p>' + movie.overview + '</p></div>');
+        let img = $('<div class="card-image img-left"><img class="alt-movie-img" src="https://image.tmdb.org/t/p/w500/' + movie.poster_path + '"></div>');
+        let content = $('<div class="content-right"><p>' + movie.overview + '</p><button class="alt-movie-button btn light" value="' + movie.original_title + '">Choose this title</button></div>');
         let clearDiv =$('<div class="clear-div"></div>');
         card.append(img, content);
         displayArea.append(card, clearDiv);
     });
-}
+};
 
 function displayBackgrounds(movieObject){
     let first = movieObject.gallery[0].file_path;
@@ -116,7 +115,7 @@ function displayBackgrounds(movieObject){
     $('#bg-1').attr('src', 'https://image.tmdb.org/t/p/original' + first);
     $('#bg-2').attr('src', 'https://image.tmdb.org/t/p/original' + middle);
     $('#bg-3').attr('src', 'https://image.tmdb.org/t/p/original' + last);
-}
+};
 
 
 function fullSearch(movieTitle, movieObject){
@@ -128,7 +127,7 @@ function fullSearch(movieTitle, movieObject){
         method: 'GET'
     })
     .then(res =>{
-        movieObject.alternativeMovies = res.results.slice(1, 6 || (res.results.length -1));
+        movieObject.alternateMovies = res.results.slice(1, 6 || (res.results.length -1));
 
         let newQuery = 'https://api.themoviedb.org/3/movie/' + res.results[0].id + '?api_key=' + key + '&append_to_response=credits,reviews,videos,images';
 
@@ -149,4 +148,49 @@ function fullSearch(movieTitle, movieObject){
             iTunesCall(movieObject.movieTitle);
         })
     })
+};
+
+function displayInfo(movieObject, selectedInfo){
+    let displayArea = $('movie-details-space');
+    displayArea.empty();
+    
+};
+
+function displayGallery(gallery, displayArea){
+    let slideShow = $('<div class="carousel carousel-slider"></div>');
+    gallery.forEach(image =>{
+        let item = $('<a class="carousel-item" href="#"><img src="https://image.tmdb.org/t/p/original/' + image.file_path + '" /></a>');
+        slideShow.append(item);
+    });
+    displayArea.append(slideShow);
+    $('.carousel.carousel-slider').carousel({fullWidth: true});
+};
+
+function displayGenres(genres, displayArea){
+    genres.forEach(genre => {
+        let p = $('<p>' + genre.name + '</p>');
+        displayArea.append(p);      
+    })
+}
+
+function InfoSwitch(iconValue, displayArea, movieObject){
+    switch(iconValue){
+        case 'synopsis':
+            displayArea.text(movieObject.synopsis);
+            break;
+        case 'cast':
+            getCast(movieObject.cast);
+            break;
+        case 'gallery':
+            displayGallery(movieObject.gallery, displayArea);
+            break;
+        case 'genre':
+            displayGenres(movieObject.genres, displayArea);
+            break;
+        case 'rating':
+            omdbCall(movieObject.movieTitle, displayArea, displayReviews);
+            break;
+        case 'runtime':
+            displayArea.text(movieObject.runTime + ' minutes');
+        }
 }
