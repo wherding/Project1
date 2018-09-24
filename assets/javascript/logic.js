@@ -7,6 +7,7 @@ $(document).ready(function () {
     var gallery;
     var movieTitle
     var genre;
+    var alternateMovies;
 
     //Display the 3 top searches
     getPopularTitles();
@@ -25,6 +26,7 @@ $(document).ready(function () {
             method: 'GET'
         })
             .then(function (res) {
+                alternateMovies = res.results.slice(1, (6 || (res.results.length -1)));
                 $.ajax({
                     url: 'https://api.themoviedb.org/3/movie/' + res.results[0].id + '?api_key=' + key + '&append_to_response=credits,reviews,videos,images',
                     method: 'GET'
@@ -101,4 +103,12 @@ $(document).ready(function () {
         }
 
     })
+
+    $('.modal').modal();
+    $('#alt-movies-btn').on('click', function(){
+        let displayArea = $('#alt-movies-card-area');
+        displayAlternateMovies(alternateMovies, displayArea);
+    });
+
+
 })

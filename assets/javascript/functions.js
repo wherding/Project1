@@ -93,3 +93,16 @@ function getCast(cast) {
         $('#movie-details-space').append(newElement);
     };
 }
+
+function displayAlternateMovies(alternateMovies, displayArea){
+    displayArea.empty();
+    console.log(alternateMovies);
+    alternateMovies.forEach(movie =>{
+        let card = $('<div class="card alt-movie-card"></div>');
+        let img = $('<div class="card-image img-left"><button class="alt-movie-btn" value="' + movie.original_title + '"><img class="alt-movie-img" src="https://image.tmdb.org/t/p/w500/' + movie.poster_path + '"></button></div>');
+        let content = $('<div class="content-right"><p>' + movie.overview + '</p></div>');
+        let clearDiv =$('<div class="clear-div"></div>');
+        card.append(img, content);
+        displayArea.append(card, clearDiv);
+    });
+}
