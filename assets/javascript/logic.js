@@ -4,7 +4,6 @@ $(document).ready(function () {
     var synopsis;
     var cast = [];
     var runTime;
-    var trailerUrl;
     var gallery;
     var movieTitle
     var genre;
@@ -13,53 +12,47 @@ $(document).ready(function () {
     getPopularTitles();
 
 
-    $('#search').on('keypress', function (event) {
+    $('#search').on('search', function (event) {
+        //event.preventDefault();
 
-        if (event.which === 13) {
-            let key = '2adc170b69082ad840069650a7c752fc';
-            movieTitle = $(this).val();
+        let key = '2adc170b69082ad840069650a7c752fc';
+        movieTitle = $('#search').val();
 
-            let query = 'https://api.themoviedb.org/3/search/movie?api_key=' + key + '&query=' + movieTitle;
+        let query = 'https://api.themoviedb.org/3/search/movie?api_key=' + key + '&query=' + movieTitle;
 
-            $.ajax({
-                url: query,
-                method: 'GET'
-            })
-                .then(function (res) {
-                    //console.log('First');
-                    //console.log(res);
-                    $.ajax({
-                        url: 'https://api.themoviedb.org/3/movie/' + res.results[0].id + '?api_key=' + key + '&append_to_response=credits,reviews,videos,images',
-                        method: 'GET'
-                    })
-                        .then(function (res) {
-                            //console.log('TMDB Second');
-                            //console.log(res);
-                            posterUrl = 'https://image.tmdb.org/t/p/w500/' + res.images.posters[0].file_path;
-                            synopsis = res.overview;
-                            $('#movie-details-space').empty();
-                            $('#movie-details-space').append($('<p>' + synopsis + '</p>'));
-                            runTime = res.runtime;
-                            trailerUrl = res.videos.results[0].id;
-                            cast = res.credits.cast;
-                            movieTitle = res.original_title;
-                            genre = res.genres;
-                            gallery = res.images.backdrops;
-                            $('#bg-1').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[0].file_path);
-                            $('#bg-2').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[(Math.floor(res.images.backdrops.length / 2))].file_path);
-                            $('#bg-3').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[(res.images.backdrops.length - 1)].file_path);
+        $.ajax({
+            url: query,
+            method: 'GET'
+        })
+            .then(function (res) {
+                $.ajax({
+                    url: 'https://api.themoviedb.org/3/movie/' + res.results[0].id + '?api_key=' + key + '&append_to_response=credits,reviews,videos,images',
+                    method: 'GET'
+                })
+                    .then(function (res) {
+                        posterUrl = 'https://image.tmdb.org/t/p/w500/' + res.images.posters[0].file_path;
+                        synopsis = res.overview;
+                        $('#movie-details-space').empty();
+                        $('#movie-details-space').append($('<p>' + synopsis + '</p>'));
+                        runTime = res.runtime;
+                        trailerUrl = res.videos.results[0].id;
+                        cast = res.credits.cast;
+                        movieTitle = res.original_title;
+                        genre = res.genres;
+                        gallery = res.images.backdrops;
+                        $('#bg-1').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[0].file_path);
+                        $('#bg-2').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[(Math.floor(res.images.backdrops.length / 2))].file_path);
+                        $('#bg-3').attr('src', 'https://image.tmdb.org/t/p/original/' + res.images.backdrops[(res.images.backdrops.length - 1)].file_path);
 
-                            //reviews = omdbCall(movieTitle);
-                            addSearchToFirebase(movieTitle);
-                            iTunesCall(movieTitle);
+                        addSearchToFirebase(movieTitle);
+                        iTunesCall(movieTitle);
 
-                        });
+                    });
 
 
 
-                });
+            });
 
-        }
     });
 
 
