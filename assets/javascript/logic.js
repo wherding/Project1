@@ -44,19 +44,31 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.play-song', function () {
+
         let song = $('#' + $(this).attr('value'));
         song = song.get(0);
 
         if ($(this).attr('data-status') === 'paused') {
+
+            let album = $('.play-song');
+            for (let i = 0; i < album.length; i++) {
+                if (album[i].getAttribute('data-status') === 'playing') {
+                    album[i].setAttribute('data-status', 'paused');
+                    album[i].textContent = 'play_circle_outline';
+                    let audio = $('#' + (i + 1));
+                    audio = audio.get(0);
+                    audio.pause();
+                }
+            }
+
             song.play();
             $(this).text('pause_circle_outline');
             $(this).attr('data-status', 'playing');
         }
-        else{
+        else {
             song.pause()
             $(this).text('play_circle_outline');
             $(this).attr('data-status', 'paused');
         }
     })
-
 })
