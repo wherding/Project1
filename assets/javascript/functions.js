@@ -12,6 +12,8 @@ function omdbCall(movieTitle, movieDetails, callback) {
         method: 'GET'
     })
         .then(res => {
+            //janky fix
+            $('#movie-details-space').empty();
             callback(res.Ratings, movieDetails);
         })
 };
@@ -41,7 +43,7 @@ function displayTracks(tracks) {
         audioSource.attr('src', track.previewUrl);
         audioSource.attr('type', 'audio/mpeg');
 
-        let playButton = $('<td><i class="material-icons play-song" data-status="paused" value="' + i +'">play_circle_outline</i></td>');
+        let playButton = $('<td><i class="material-icons play-song" data-status="paused" value="' + i + '">play_circle_outline</i></td>');
         let songName = $('<td>' + track.trackName + '</td>');
         let artistName = $('<td>' + track.artistName + '</td>');
 
@@ -200,16 +202,5 @@ function InfoSwitch(iconValue, displayArea, movieObject) {
             case 'runtime':
                 displayArea.text(movieObject.runTime + ' minutes');
         }
-    }
-}
-
-function pauseAllSongs(songs){
-    for(let i = 1; i <= songs.length; i++){
-        let song = $('#' + i);
-        song.attr('data-status', 'paused');
-        song.text('play_circle_outline');
-
-        song = song.get(0);
-        song.pause();
     }
 }
