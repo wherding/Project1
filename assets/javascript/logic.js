@@ -7,7 +7,15 @@ $(document).ready(function () {
         let movieTitle = $('#search').val();
         fullSearch(movieTitle, movieObject);
         $('movie-details-space').text(movieObject.synopsis);
+        $('#search').val('');
     });
+
+    $(document).on('search', '#side-search', function(event){
+        let movieTitle = $('#side-search').val();
+        fullSearch(movieTitle, movieObject);
+        $('movie-details-space').text(movieObject.synopsis);
+        $('#side-search').val('');
+    })
 
 
     $('.movie-snippet').on('click', function () {
