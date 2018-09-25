@@ -202,3 +202,14 @@ function InfoSwitch(iconValue, displayArea, movieObject) {
         }
     }
 }
+
+function pauseAllSongs(songs){
+    for(let i = 1; i <= songs.length; i++){
+        let song = $('#' + i);
+        song.attr('data-status', 'paused');
+        song.text('play_circle_outline');
+
+        song = song.get(0);
+        song.pause();
+    }
+}
