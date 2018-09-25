@@ -25,6 +25,7 @@ function getPopularTitles() {
         .then(snap => {
             snap.forEach(snap => {
                 let btn = $('<button class="btn-large ligth popular-movie">' + snap.key + '</button>');
+                //btn.addClass("popular");
                 $('.popularMovies').append(btn);
             })
         });

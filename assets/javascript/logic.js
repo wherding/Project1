@@ -31,4 +31,12 @@ $(document).ready(function () {
         $('#search').val('');
     });
 
+    $(document).on('click', '.popular-movie', function(){
+        let movieTitle = $(this).text();
+       // console.log($(this).text())
+        fullSearch(movieTitle, movieObject);
+        //$('.modal').modal('close');
+        //$('#search').val('');
+    });
+
 })
