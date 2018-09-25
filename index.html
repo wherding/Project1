@@ -17,12 +17,24 @@
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" class="brand-logo">MOVIE SEARCH:</a>
-      <div class="input-field right">
+      <a href='#' data-target='side-nav' class="sidenav-trigger"><i class="material-icons">search</i></a>
+      <div class="input-field right hide-on-med-and-down">
         <input id="search" type="search">
         <label class="label-icon" for="search"><i class="material-icons black-text">search</i></label>
       </div>
     </div>
   </nav>
+
+  <ul class="sidenav" id="side-nav">
+    <li><i class="material-icons">search</i><input id="side-search" type="search"></li>
+    <li><h5>Popular Searches:</h5></li>
+    <!-- Will, Put your buttons here: -->
+    <li>Movie 1</li>
+    <li>Movie 2</li>
+    <li>Movie 3</li>
+  </ul>
+
+
 
   <div id="index-banner" class="parallax-container">
     <div class="section no-pad-bot">
