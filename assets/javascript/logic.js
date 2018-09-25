@@ -19,7 +19,6 @@ $(document).ready(function () {
 
     $('.modal').modal();
     $(document).on('click', '#alt-movies-btn', function(){
-        console.log(movieObject);
         let displayArea = $('#alt-movies-card-area');
         displayAlternateMovies(movieObject.alternateMovies, displayArea);
     });
@@ -33,10 +32,7 @@ $(document).ready(function () {
 
     $(document).on('click', '.popular-movie', function(){
         let movieTitle = $(this).text();
-       // console.log($(this).text())
         fullSearch(movieTitle, movieObject);
-        //$('.modal').modal('close');
-        //$('#search').val('');
     });
 
 })

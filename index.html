@@ -53,7 +53,7 @@
 
       <!--   Icon Section   -->
       <div class="row">
-        <div class="col s12 m4">
+        <div class="col s12 m4 modal-trigger movie-snippet" href="#movie-info-modal" value="synopsis">
           <div class="icon-block">
             <h2 class="center brown-text"><i class="material-icons">import_contacts</i></h2>
             <h6 id="movie-details-title" class="center card movie-snippet" value='synopsis'>Synopsis</h6>
@@ -61,7 +61,7 @@
           </div>
         </div>
 
-        <div class="col s12 m4">
+        <div class="col s12 m4 modal-trigger movie-snippet" href="#movie-info-modal" value="cast">
           <div class="icon-block">
             <h2 class="center brown-text"><i class="material-icons">group</i></h2>
             <h6 id="movie-details-title" class="center card movie-snippet" value='cast'>Cast</h6>
@@ -70,7 +70,7 @@
           </div>
         </div>
 
-        <div class="col s12 m4">
+        <div class="col s12 m4 modal-trigger movie-snippet" href="#movie-info-modal" value="gallery">
           <div class="icon-block">
             <h2 class="center brown-text"><i class="material-icons">image</i></h2>
             <h6 id="movie-details-title" class="center card movie-snippet" value='gallery'>Gallery</h6>
@@ -78,143 +78,144 @@
           <div class="row">
           </div>
         </div>
-        <div class="col s12 m4">
+
+        <div class="col s12 m4 modal-trigger movie-snippet" href="#movie-info-modal" value="genre">
           <div class="icon-block">
             <h2 class="center brown-text"><i class="material-icons">filter_none</i></h2>
             <h6 id="movie-details-title" class="center card movie-snippet" value='genre'>Genre</h6>
 
           </div>
         </div>
-        <div class="col s12 m4">
+        <div class="col s12 m4 modal-trigger movie-snippet" href="#movie-info-modal" value="rating">
           <div class="icon-block">
             <h2 class="center brown-text"><i class="material-icons">stars</i></h2>
             <h6 id="movie-details-title" class="center card movie-snippet" value='rating'>Rating</h6>
 
           </div>
         </div>
-        <div class="col s12 m4">
+        <div class="col s12 m4 modal-trigger movie-snippet" href="#movie-info-modal" value='runtime'>
           <div class="icon-block">
             <h2 class="center brown-text"><i class="material-icons">access_time</i></h2>
-            <h6 id="movie-details-title" class="center card movie-snippet" value='runtime'>Runtime</h6>
+            <h6 id="movie-details-title" class="center card movie-snippet">Runtime</h6>
 
           </div>
         </div>
       </div>
 
     </div>
-    <div class="card" id="movie-info">
-      <span id="movie-details-space">
-        Search a movie at the top to learn more about it
-    </div>
-  </div>
-
-  <a id="alt-movies-btn" class="waves-effect waves-light btn modal-trigger" href="#alt-movies">Not what you're looking for?</a>
-
-  <!-- Modal Structure -->
-  <div id="alt-movies" class="modal">
-    <div class="modal-content">
-      <h4>One of these maybe?</h4>
-      <div id="alt-movies-card-area">
+    <div class="modal" id="movie-info-modal">
+      <div id="movie-details-space" class="modal-content">
 
       </div>
     </div>
-  </div>
 
-  <div class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <div class="row center">
-          <h5 class="header col s12 light btn-large">Cool movie, huh? Now here's the music!</h5>
+    <a id="alt-movies-btn" class="waves-effect waves-light btn modal-trigger" href="#alt-movies">Not what you're
+      looking for?</a>
+
+    <div id="alt-movies" class="modal">
+      <div class="modal-content">
+        <h4>One of these maybe?</h4>
+        <div id="alt-movies-card-area">
+
         </div>
       </div>
     </div>
-    <div class="parallax"><img id='bg-2' src="./assets/images/background2.jpg" alt="Unsplashed background img 2"></div>
-  </div>
+
+    <div class="parallax-container valign-wrapper">
+      <div class="section no-pad-bot">
+        <div class="container">
+          <div class="row center">
+            <h5 class="header col s12 light btn-large">Cool movie, huh? Now here's the music!</h5>
+          </div>
+        </div>
+      </div>
+      <div class="parallax"><img id='bg-2' src="./assets/images/background2.jpg" alt="Unsplashed background img 2"></div>
+    </div>
 
 
-  <div class="container">
-    <div class="section">
+    <div class="container">
+      <div class="section">
 
-      <div class="row" id="music-row">
-        <div class="col s12">
-          <div id='soundtrack-card' class="card center">
-            <div class="card-content">
-              <span class="card-title text-white">
-                <strong>Movie Soundtrack</strong>
-              </span>
-              <table id='tracks' class='highlight'>
-                <thead>
-                  <th>Song</th>
-                  <th>Artist</th>
-                  <th>Preview</th>
-                </thead>
-              </table>
+        <div class="row" id="music-row">
+          <div class="col s12">
+            <div id='soundtrack-card' class="card center">
+              <div class="card-content">
+                <span class="card-title text-white">
+                  <strong>Movie Soundtrack</strong>
+                </span>
+                <table id='tracks' class='highlight'>
+                  <thead>
+                    <th>Song</th>
+                    <th>Artist</th>
+                    <th>Preview</th>
+                  </thead>
+                </table>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
 
     </div>
 
-  </div>
 
+    <div class="parallax-container valign-wrapper">
+      <div class="section no-pad-bot">
+        <div class="container">
+          <div class="row center">
 
-  <div class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
+            <h5 class="header col s12 light"></h5>
+          </div>
+        </div>
+      </div>
+      <div class="parallax"><img id="bg-3" src="./assets/images/background3.jpg" alt="Unsplashed background img 3"></div>
+    </div>
+
+    <footer class="page-footer teal">
       <div class="container">
-        <div class="row center">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Team Matrix</h5>
+            <p class="grey-text text-lighten-4">We are a team of four aspiring (and in training) Full Stack Web
+              Developers and this is our first project.</p>
 
-          <h5 class="header col s12 light"></h5>
+          </div>
+
+          <div class="col l6 s12">
+            <h5 class="white-text">Connect</h5>
+            <ul>
+              <li><a class="white-text" href="https://dawnpatrol506.github.io">Kevin Davis</a></li>
+              <li><a class="white-text" href="https://kteacherbecomescoder.github.io">Eric Guerrero</a></li>
+              <li><a class="white-text" href="https://wherding.github.io">Will Herding</a></li>
+              <li><a class="white-text" href="https://benvanmaren.github.io">Ben Van Maren</a></li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="parallax"><img id="bg-3" src="./assets/images/background3.jpg" alt="Unsplashed background img 3"></div>
-  </div>
-
-  <footer class="page-footer teal">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Team Matrix</h5>
-          <p class="grey-text text-lighten-4">We are a team of four aspiring (and in training) Full Stack Web
-            Developers and this is our first project.</p>
-
-        </div>
-
-        <div class="col l6 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="https://dawnpatrol506.github.io">Kevin Davis</a></li>
-            <li><a class="white-text" href="https://kteacherbecomescoder.github.io">Eric Guerrero</a></li>
-            <li><a class="white-text" href="https://wherding.github.io">Will Herding</a></li>
-            <li><a class="white-text" href="https://benvanmaren.github.io">Ben Van Maren</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>
+    </footer>
 
 
-  <!--  Scripts-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.js"></script>
-  <script src="assets/javascript/materialize.js"></script>
-  <script src="assets/javascript/init.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase.js"></script>
-  <script src="./assets/javascript/functions.js"></script>
-  <script src="./assets/javascript/logic.js"></script>
-  <script>
+    <!--  Scripts-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.js"></script>
+    <script src="assets/javascript/materialize.js"></script>
+    <script src="assets/javascript/init.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase.js"></script>
+    <script src="./assets/javascript/functions.js"></script>
+    <script src="./assets/javascript/logic.js"></script>
+    <script>
 
-    var config = {
-      apiKey: "AIzaSyB0oTpmDKAlzuGtCJhUTjtf9eHhQtiOxlU",
-      authDomain: "project1-15540.firebaseapp.com",
-      databaseURL: "https://project1-15540.firebaseio.com",
-      projectId: "project1-15540",
-      storageBucket: "project1-15540.appspot.com",
-      messagingSenderId: "693020255011"
-    };
-    firebase.initializeApp(config);
-    var db = firebase.database();
-  </script>
+      var config = {
+        apiKey: "AIzaSyB0oTpmDKAlzuGtCJhUTjtf9eHhQtiOxlU",
+        authDomain: "project1-15540.firebaseapp.com",
+        databaseURL: "https://project1-15540.firebaseio.com",
+        projectId: "project1-15540",
+        storageBucket: "project1-15540.appspot.com",
+        messagingSenderId: "693020255011"
+      };
+      firebase.initializeApp(config);
+      var db = firebase.database();
+    </script>
 
 </body>
 
