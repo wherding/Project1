@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <nav class="white" role="navigation">
+  <nav class="white nav-extended" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" class="brand-logo">MOVIE SEARCH:</a>
       <a href='#' data-target='side-nav' class="sidenav-trigger"><i class="material-icons">search</i></a>
@@ -23,15 +23,19 @@
         <label class="label-icon" for="search"><i class="material-icons black-text">search</i></label>
       </div>
     </div>
+
+  <div class="nav-content">
+    <ul class="tabs">
+      <li class="tab disabled"><a class="grey-text" href='#'>Popular Searches</a></li>
+      <li class="tab"><a class="black-text">Movie 1</a></li>
+      <li class="tab"><a class="black-text">Movie 2</a></li>
+      <li class="tab"><a class="black-text">Movie 3</a></li>
+    </ul>
+  </div>
   </nav>
 
   <ul class="sidenav" id="side-nav">
     <li><i class="material-icons">search</i><input id="side-search" type="search"></li>
-    <li><h5>Popular Searches:</h5></li>
-    <!-- Will, Put your buttons here: -->
-    <li>Movie 1</li>
-    <li>Movie 2</li>
-    <li>Movie 3</li>
   </ul>
 
 
