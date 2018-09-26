@@ -72,4 +72,17 @@ $(document).ready(function () {
             $(this).attr('data-status', 'paused');
         }
     })
+
+    $(document).on('click', '.moveNextCarousel', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+        $('.carousel').carousel('next');
+    });
+
+    $(document).on('click', '.movePrevCarousel', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+        $('.carousel').carousel('prev');
+    })
+
 })

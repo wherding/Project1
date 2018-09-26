@@ -181,9 +181,14 @@ function displayInfo(movieObject, selectedInfo) {
 };
 
 function displayGallery(gallery, displayArea) {
-    let slideShow = $('<div class="carousel carousel-slider"></div>');
+    console.log($('.carousel').length);
+    let slideShow = $('<div class="carousel carousel-slider data-indicators="true"></div>');
+    let indicators = $(
+        '<div class="carousel-fixed-item center middle-indicator"><div class="left"><a href="#" class="movePrevCarousel middle-indicator-text waves-effect waves-light content-indicator"><i class="chevron material-icons left middle-indicator-text">chevron_left</i></a></div><div class="right"><a href="#" class="moveNextCarousel middle-indicator-text waves-effect waves-light content-indicator"><i class="chevron material-icons right middle-indicator-text">chevron_right</i></a></div></div>"'
+    );
+    slideShow.append(indicators);
     gallery.forEach(image => {
-        let item = $('<a class="carousel-item" href="#"><img src="https://image.tmdb.org/t/p/original/' + image.file_path + '" /></a>');
+        let item = $('<a class="carousel-item" href="#"><img class="carousel-image" src="https://image.tmdb.org/t/p/original/' + image.file_path + '" /></a>');        
         slideShow.append(item);
     });
     displayArea.append(slideShow);
