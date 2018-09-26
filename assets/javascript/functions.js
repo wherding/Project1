@@ -62,7 +62,7 @@ function displayTracks(tracks) {
         audioSource.attr('src', track.previewUrl);
         audioSource.attr('type', 'audio/mpeg');
 
-        let playButton = $('<td><i class="material-icons play-song" data-status="paused" value="' + i + '">play_circle_outline</i></td>');
+        let playButton = $('<td><button class="material-icons play-song" data-status="paused" value="' + i + '">play_circle_outline</button></td>');
         let songName = $('<td>' + track.trackName + '</td>');
         let artistName = $('<td>' + track.artistName + '</td>');
 

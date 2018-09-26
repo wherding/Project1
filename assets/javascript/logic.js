@@ -62,7 +62,9 @@ $(document).ready(function () {
                 }
             }
 
+            console.log($(this))
             song.play();
+            
             $(this).text('pause_circle_outline');
             $(this).attr('data-status', 'playing');
         }
