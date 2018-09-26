@@ -105,6 +105,26 @@ footer.page-footer {
   overflow: auto;
 }
 
+
 .tabs li{
   margin-left: 5%;
+}
+#title{
+  font-size: 80px;
+  background: rgb(231,192,37, .7);
+  font-weight: bold;
+  border: black solid 2px;
+}
+
+#huh{
+  font-size: 3em;
+  background: rgb(231,192,37, .7);
+  font-weight: bold;
+  border: black solid 2px;
+  padding: 20px;
+}
+
+#alt-movies-btn{
+  font-size: 1.5em;
+}
 }
