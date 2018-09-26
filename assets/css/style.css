@@ -104,3 +104,7 @@ footer.page-footer {
   margin: 25px 15px;
   overflow: auto;
 }
+
+.tabs li{
+  margin-left: 5%;
+}

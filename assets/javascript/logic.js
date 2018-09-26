@@ -40,6 +40,7 @@ $(document).ready(function () {
 
     $(document).on('click', '.popular-movie', function () {
         let movieTitle = $(this).text();
+        
         fullSearch(movieTitle, movieObject);
     });
 
