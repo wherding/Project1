@@ -105,6 +105,10 @@ footer.page-footer {
   overflow: auto;
 }
 
+
+.tabs li{
+  margin-left: 5%;
+}
 #title{
   font-size: 80px;
   background: rgb(231,192,37, .7);
@@ -122,4 +126,5 @@ footer.page-footer {
 
 #alt-movies-btn{
   font-size: 1.5em;
+}
 }

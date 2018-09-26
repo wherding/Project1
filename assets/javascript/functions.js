@@ -19,14 +19,33 @@ function omdbCall(movieTitle, movieDetails, callback) {
 };
 
 function getPopularTitles() {
+    let btn = $("<button>");
+   // btn.addClass("popular-movie")
+    btn.addClass("waves-effect waves-light btn");
+    btn.text("Popular Searches:")
+    let li = $("<li>");
+    li.append(btn);
+    $('.tabs').append(li);
+    var nli =  {}
+                nli = li.clone();
+                $('#side-nav').append(nli);
+
     let db = firebase.database();
     let popularTitles = db.ref('/search/').orderByValue().limitToLast(3);
     let arr;
     popularTitles.once('value')
         .then(snap => {
             snap.forEach(snap => {
-                let btn = $('<button class="btn-large ligth popular-movie">' + snap.key + '</button>');
-                $('.popularMovies').append(btn);
+                let btn = $("<button>");
+                btn.addClass("popular-movie")
+                btn.addClass("waves-effect waves-light btn")
+                btn.text(snap.key)
+                let li = $("<li>");
+                li.append(btn);
+                $('.tabs').append(li);
+                var nli =  {}
+                nli = li.clone();
+                $('#side-nav').append(nli);
             })
         });
 };
