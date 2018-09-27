@@ -60,11 +60,23 @@ p {
   #index-banner .section {
     top: 10%;
   }
+
+  .transition-img{
+    height: 140%;
+  }
 }
 
 @media only screen and (max-width : 600px) {
   #index-banner .section {
     top: 0;
+  }
+
+  nav .brand-logo{
+    font-size: 2.2em;
+  }
+
+  .carousel{
+    height: 0px !important;
   }
 }
 
@@ -196,4 +208,26 @@ a.middle-indicator-text{
 .play-song:focus{
   background-color: white;
   color: black
+}
+
+.search-wrapper{
+  position: relative;
+}
+
+.sherlock{
+  position: absolute;
+  right: 5px;
+  top: 10px;
+}
+
+.subheader{
+  font-size: 1.5em !important;
+  line-height: 2.75em !important;
+}
+
+#nav-popular-searches{
+  font-weight: bold;
+  font-size: 1.8em;
+  position: relative;
+  top: 5px;
 }
