@@ -26,7 +26,14 @@ nav .brand-logo {
 
 .parallax{
   background-repeat:repeat;
+  position: relative;
+  background-color: whitesmoke;
 }
+
+.transition-img{
+  position: absolute;
+}
+
 p {
   line-height: 2rem;
 }
@@ -172,4 +179,21 @@ a.middle-indicator-text{
 
 .indicators{
   visibility: hidden;
+}
+
+.play-song{
+  text-shadow: none;
+  box-shadow: none;
+  background-color: white;
+  border-radius: 50px;
+}
+
+.play-song:active{
+  background-color: white;
+  color: black;
+}
+
+.play-song:focus{
+  background-color: white;
+  color: black
 }

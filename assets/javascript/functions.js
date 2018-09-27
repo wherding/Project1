@@ -62,7 +62,7 @@ function displayTracks(tracks) {
         audioSource.attr('src', track.previewUrl);
         audioSource.attr('type', 'audio/mpeg');
 
-        let playButton = $('<td><button class="material-icons play-song" data-status="paused" value="' + i + '">play_circle_outline</button></td>');
+        let playButton = $('<td><button class="material-icons play-song" data-status="paused" value="' + i + '">play_arrow</button></td>');
         let songName = $('<td>' + track.trackName + '</td>');
         let artistName = $('<td>' + track.artistName + '</td>');
 
@@ -137,10 +137,27 @@ function displayBackgrounds(movieObject) {
     let last = movieObject.gallery[(movieObject.gallery.length - 1)].file_path;
 
     $('#bg-1').attr('src', 'https://image.tmdb.org/t/p/original' + first);
+    $('#bg-1').attr('data-value', 0);
     $('#bg-2').attr('src', 'https://image.tmdb.org/t/p/original' + middle);
+    $('#bg-2').attr('data-value', (Math.floor(movieObject.gallery.length / 2)));
     $('#bg-3').attr('src', 'https://image.tmdb.org/t/p/original' + last);
+    $('#bg-3').attr('data-value', (movieObject.gallery.length - 1));
 };
-
+///////////////working here//////////////////
+function backgroundCrossFade(gallery, currentIndex, backgroundElement){
+    if(currentIndex == (gallery.length - 1)){
+        currentIndex = -1;
+    }
+    currentIndex++;
+    let imgUrl = 'https://image.tmdb.org/t/p/original' + gallery[currentIndex].file_path;
+    
+    backgroundElement.animate({opacity: 0}, 1200);
+    setTimeout(function(){
+        backgroundElement.attr('src', imgUrl);
+    }, 1150);
+    backgroundElement.animate({opacity: 1}, 1200);
+    backgroundElement.attr('data-value', currentIndex);
+}
 
 function fullSearch(movieTitle, movieObject) {
     let key = '2adc170b69082ad840069650a7c752fc';
@@ -167,9 +184,24 @@ function fullSearch(movieTitle, movieObject) {
                     movieObject.genres = res.genres;
                     movieObject.gallery = res.images.backdrops;
 
+                    
                     displayBackgrounds(movieObject);
                     addSearchToFirebase(movieObject.movieTitle);
                     iTunesCall(movieObject.movieTitle);
+                    if(movieObject.interval)
+                        clearInterval(movieObject.interval);
+
+                        movieObject.interval = setInterval(function(){
+                        let bgOne = $('#bg-1');
+                        let bgTwo = $('#bg-2');
+                        let bgThree = $('#bg-3');
+                        backgroundCrossFade(movieObject.gallery, bgOne.attr('data-value'), bgOne);
+                        backgroundCrossFade(movieObject.gallery, bgTwo.attr('data-value'), bgTwo);
+                        backgroundCrossFade(movieObject.gallery, bgThree.attr('data-value'), bgThree);
+                    }, 10000)
+
+                    $('#title').hide();
+
                 })
         })
 };
