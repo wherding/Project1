@@ -55,23 +55,25 @@ $(document).ready(function () {
             for (let i = 0; i < album.length; i++) {
                 if (album[i].getAttribute('data-status') === 'playing') {
                     album[i].setAttribute('data-status', 'paused');
-                    album[i].textContent = 'play_circle_outline';
+                    album[i].textContent = 'play_arrow';
                     let audio = $('#' + (i + 1));
+                    audio.parent().parent().css({ backgroundColor: 'white', color: 'black'});
                     audio = audio.get(0);
                     audio.pause();
                 }
             }
 
-            console.log($(this))
             song.play();
             
-            $(this).text('pause_circle_outline');
+            $(this).text('pause');
             $(this).attr('data-status', 'playing');
+            $(this).parent().parent().css({ backgroundColor: '#e1e1e1'})
         }
         else {
             song.pause()
-            $(this).text('play_circle_outline');
+            $(this).text('play_arrow');
             $(this).attr('data-status', 'paused');
+            $(this).parent().parent().css({ backgroundColor: 'white', color: 'black'})
         }
     })
 
